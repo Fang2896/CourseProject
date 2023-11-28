@@ -4,7 +4,10 @@ import requests
 import json
 import random
 
+from dotenv import load_dotenv
 from openai import OpenAI
+
+load_dotenv()
 
 discord_intents = discord.Intents().all()
 discord_client = discord.Client(intents=discord_intents)
@@ -64,4 +67,4 @@ async def on_message(message):
 
 
 #getting the secret token
-discord_client.run('MTE3ODkzMjYwNDM5Nzk1NzE5MQ.Ghbt4F.rsoVPkkOpJqAZhzUN_vxgF7BBIABQdFr-frep8')
+discord_client.run(os.getenv('DISCORD_BOT_TOKEN'))

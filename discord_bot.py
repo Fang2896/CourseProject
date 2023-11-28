@@ -20,9 +20,24 @@ class DiscordBot:
             msg = message.content
 
             # check stop
-            if msg.strip() == '#stop':
+            if msg.strip() == '#correct':
+                correct_input = self.history.get_full_user_assistant_history()
+                correct_prompt = "Please check the user's words, please check if there are any word usage errors, or spelling errors, or sentence grammar errors, and then list these errors, analyze the errors in sequence, and correct the errors."
+                print()
+
+                self.history.add_message(
+                    "user", 
+                     correct_input + "\n" + correct_prompt)
+
+                response = await self.gpt_client.submit_message(self.history.get_full_history())
+                # await message.channel.send(response["content"])
+                await self.send_split_messages(message.channel, response["content"])
+                self.history.clear_history()
+                await self.send_split_messages(message.channel, "=== Conversation has been reset ====")
+            elif msg.strip() == '#reset':
                 full_history_text = self.format_full_conversation()
-                await self.send_split_messages(message.channel, full_history_text)
+                await self.send_split_messages(message.channel, "=== Conversation has been reset ====")
+                #await self.send_split_messages(message.channel, full_history_text)
                 self.history.clear_history()
             else:
                 self.history.add_message("user", msg)

@@ -19,6 +19,15 @@ class DialogueHistory:
   def get_full_history(self):
     return self.history
   
+  def get_full_user_assistant_history(self):
+    formatted_history = []
+    for message in self.history:
+        if message["role"] in ["user", "assistant"]:
+            role = "user" if message["role"] == "user" else "gpt"
+            formatted_history.append(f"{role}: {message['content']}")
+    return ', '.join(formatted_history)
+  
   def clear_history(self, system_content = "You are a helpful assistant."):
+    print("==== clean history ====")
     self.history = [{"role":"system", "content":system_content}]
       

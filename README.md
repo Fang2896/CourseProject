@@ -50,7 +50,3 @@ Contributions to the project are welcome. Please feel free to fork the repositor
 ## License
 
 [MIT License](LICENSE)
-
----
-
-请根据您项目的具体情况调整此 `README.md` 文件。例如，您可能需要提供更详细的安装指南、使用说明、贡献指南，或者任何其他相关信息。此外，确保更新任何特定的链接或细节以匹配您的项目的实际情况。

@@ -28,7 +28,7 @@ class GPTClient:
     async def submit_message(self, whole_text):
         async with aiohttp.ClientSession() as session:
             payload = {
-                'model': 'gpt-3.5-turbo',
+                'model': 'gpt-4-1106-preview',  # gpt-4-turbo
                 'messages': whole_text
             }
             async with session.post(self.api_url, headers=self.headers, json=payload) as response:
@@ -40,3 +40,4 @@ class GPTClient:
                     response_text = await response.text()
                     print(f"Error from OpenAI: {response.status} - {response_text}")
                     return None
+

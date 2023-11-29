@@ -1,12 +1,14 @@
 import discord
+import os
 from dialogue_history import DialogueHistory
 
 class DiscordBot:
-    def __init__(self, token, gpt_client):
+    def __init__(self, token, gpt_client, json_config_manager):
         self.client = discord.Client(intents=discord.Intents().all())
         self.gpt_client = gpt_client
         self.token = token
-        self.history = DialogueHistory()
+        self.history = DialogueHistory(json_config_manager)
+        self.json_config_manager = json_config_manager
 
         @self.client.event
         async def on_ready():
@@ -21,13 +23,16 @@ class DiscordBot:
 
             # check stop
             if msg.strip() == '#correct':
-                correct_input = self.history.get_full_user_assistant_history()
-                correct_prompt = "Please check the user's words, please check if there are any word usage errors, or spelling errors, or sentence grammar errors, and then list these errors, analyze the errors in sequence, and correct the errors."
+                tobe_corrected_input = self.history.get_all_user_history()
+                correct_instruction = json_config_manager.get("CORRECT_INSTRUCTION")
+                correct_format_prompt = json_config_manager.get("CORRECT_FORMAT")
                 print()
 
+                await self.send_split_messages(message.channel, "=== In Correcting ====")
                 self.history.add_message(
                     "user", 
-                     correct_input + "\n" + correct_prompt)
+                     correct_instruction + correct_format_prompt + "\n" + tobe_corrected_input
+                    )
 
                 response = await self.gpt_client.submit_message(self.history.get_full_history())
                 # await message.channel.send(response["content"])
@@ -35,7 +40,7 @@ class DiscordBot:
                 self.history.clear_history()
                 await self.send_split_messages(message.channel, "=== Conversation has been reset ====")
             elif msg.strip() == '#reset':
-                full_history_text = self.format_full_conversation()
+                #full_history_text = self.format_full_conversation()
                 await self.send_split_messages(message.channel, "=== Conversation has been reset ====")
                 #await self.send_split_messages(message.channel, full_history_text)
                 self.history.clear_history()

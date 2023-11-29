@@ -1,29 +1,56 @@
-# Multimedia Interface Course Project
 
-## Introduction
+# Discord Grammar Correction Bot
 
-This bot brings the power of ChatGPT to your Discord server! Engage in real-time conversations with ChatGPT and get instant grammar corrections after each chat session. Developed using `discord.py` to leverage the existing Discord UI, it reduces the need for a separate UI development, streamlining the user experience. The main backend logic integrates OpenAI's API and is built upon the LangChain framework.
+## Overview
 
+This project is a Discord bot that enables users to join a Discord group and interact with a bot powered by GPT (Generative Pretrained Transformer). Users can chat freely with the bot, and after the conversation, they can use specific commands to check for grammatical and spelling errors in their messages. This bot is a tool for users looking to improve their language skills or just have fun chatting with an AI.
 
-## Key Features
+## Features
 
-1. **Real-time Chatting** : Users can engage in real-time text conversations with ChatGPT.
-2. **Grammar Correction** : After the chat session concludes, the app will automatically detect and correct any grammatical errors made by the user, providing suggested revisions.
+- **Join the Discord Group**: Users can join the Discord group through the link: [Join Discord](https://discord.gg/JJ8Yysgg).
+- **Chat with the Bot**: Once in the group, users can freely chat with the bot.
+- **Grammar and Spelling Check**: By typing `#correct`, the bot will check for grammatical and spelling errors in the user's messages.
+- **Reset Chat History**: Users can clear all chat history by typing `#reset`.
 
+## Installation and Usage
 
-## Setup and Usage
+### Prerequisites
 
-1. **Invite the Bot** : Use the provided link to invite the Chat-Correction bot to your Discord server.
-2. **Start a Chat** : Simply mention the bot (e.g., `@ChatCorrectionBot`) followed by your message to initiate a conversation.
-3. **End Chat & View Corrections** : Once you want to conclude the conversation, type `@ChatCorrectionBot end`. The bot will then provide a list of suggested corrections for any grammatical errors detected during the conversation.
+- Python 3.8
+- Libraries: `openai`, `discord`, `json`, `dotenv`, `aiohttp`
 
-## Technical Details
+### Setup
 
-* **Framework** : The bot is built on the LangChain framework, ensuring robust language processing capabilities.
-* **Integration** : OpenAI's API powers the core chat and correction functionalities, providing accurate and reliable responses.
-* **Development** : The bot was developed using `discord.py`, allowing it to function seamlessly within the Discord environment.
+1. Clone the repository to your local machine.
+2. Install the required libraries:
+   ```bash
+   pip install openai discord json dotenv aiohttp
+   ```
+3. Create a `.env` file in the main directory and fill in the following keys:
+   - `OPENAI_API_KEY`: Your OpenAI API key.
+   - `DISCORD_BOT_TOKEN`: Your Discord bot token.
+4. Run the bot:
+   ```bash
+   python main.py
+   ```
 
-## Notes
+## Development TODOs
 
-* The app requires an internet connection to communicate with the ChatGPT servers.
-* The correction feature may not catch all grammatical errors; users should use their discretion when deciding to accept suggestions.
+1. [ ] Experiment with improved prompts for better interaction.
+
+* [ ] Develop a more advanced interaction/correction system.
+* [ ] Implement voice interaction capabilities.
+
+* [ ] Explore the use of GPT in JSON mode.
+
+## Contribution
+
+Contributions to the project are welcome. Please feel free to fork the repository, make changes, and submit a pull request.
+
+## License
+
+[MIT License](LICENSE)
+
+---
+
+请根据您项目的具体情况调整此 `README.md` 文件。例如，您可能需要提供更详细的安装指南、使用说明、贡献指南，或者任何其他相关信息。此外，确保更新任何特定的链接或细节以匹配您的项目的实际情况。

@@ -1,14 +1,4 @@
 {
-  "OPENAI_API_KEY_SYILAB" : [
-    "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"
-  ],
-  "OPENAI_API_KEY_MULTIMEDIA" : [
-    "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"
-  ],
-  "DISCORD_BOT_TOKEN" : [
-    "MTE3ODkzMjYwNDM5Nzk1NzE5MQ.GazzOC.9UhMABQhiAOItFdYS7FtbOez1GfVCVeXPq3088"
-  ],
-
   "DEFAULT_SYSTEM_CONTENT": [
     "You are a great English teacher who can talk to users."
   ],

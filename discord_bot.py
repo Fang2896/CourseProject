@@ -26,13 +26,12 @@ class DiscordBot:
                 tobe_corrected_input = self.history.get_all_user_history()
                 correct_instruction = json_config_manager.get("CORRECT_INSTRUCTION")
                 correct_format_prompt = json_config_manager.get("CORRECT_FORMAT")
-                print()
+                print("Correct Mode")
 
                 await self.send_split_messages(message.channel, "=== In Correcting ====")
                 self.history.add_message(
                     "user", 
-                     correct_instruction + correct_format_prompt + "\n" + tobe_corrected_input
-                    )
+                     correct_instruction + correct_format_prompt + "\n" + tobe_corrected_input)
 
                 response = await self.gpt_client.submit_message(self.history.get_full_history())
                 # await message.channel.send(response["content"])
@@ -40,12 +39,14 @@ class DiscordBot:
                 self.history.clear_history()
                 await self.send_split_messages(message.channel, "=== Conversation has been reset ====")
             elif msg.strip() == '#reset':
-                #full_history_text = self.format_full_conversation()
+                #full_history_text = self.format_full_conversation()'
+                print("Reset Mode")
                 await self.send_split_messages(message.channel, "=== Conversation has been reset ====")
                 #await self.send_split_messages(message.channel, full_history_text)
                 self.history.clear_history()
             else:
                 self.history.add_message("user", msg)
+                print("User Input")
 
                 # response = self.gpt_client.submit_message(self.history.get_full_history())
                 response = await self.gpt_client.submit_message(self.history.get_full_history())

@@ -1,4 +1,3 @@
-
 # Discord Grammar Correction Bot
 
 ## Overview
@@ -37,15 +36,14 @@ This project is a Discord bot that enables users to join a Discord group and int
 ## Development TODOs
 
 1. [ ] Experiment with improved prompts for better interaction.
+    Say: Better structrue of prompt. Given the options of GPT agent for user to choose.
 
 * [ ] Develop a more advanced interaction/correction system.
+  Say: One agent of customizable characteristic for chatting with user, and the other can summarize the grammar faults of user to correct.
 * [ ] Implement voice interaction capabilities.
-
-* [ ] Explore the use of GPT in JSON mode.
-
-## Contribution
-
-Contributions to the project are welcome. Please feel free to fork the repository, make changes, and submit a pull request.
+  Because discord don't support the speech access, we might consider to use WeChat instead.
+* [ ] Change the framework
+  Currently we use orginal OpenAI API, but LangChain has more features such as Memory, Agent for us to use.
 
 ## License
 

@@ -8,7 +8,7 @@ class WeChatServer:
     def __init__(self, token):
         self.token = token
 
-    def printXML(xml_content):
+    def printXML(self, xml_content):
         # 创建XML元素
         element = ET.XML(xml_content)
 
@@ -16,7 +16,7 @@ class WeChatServer:
         ET.indent(element)
         print(ET.tostring(element, encoding='unicode'))
 
-    def getUserMessageContentFromXML(xml_content):
+    def getUserMessageContentFromXML(self, xml_content):
         # 解析XML字符串
         root = ET.fromstring(xml_content)
 
@@ -26,7 +26,7 @@ class WeChatServer:
         to_user_name = root.find('ToUserName').text
         return content, from_user_name, to_user_name
 
-    def generate_response_xml(from_user_name, to_user_name, output_content):
+    def generate_response_xml(self, from_user_name, to_user_name, output_content):
         output_xml = '''
         <xml>
             <ToUserName><![CDATA[%s]]></ToUserName>
@@ -41,7 +41,7 @@ class WeChatServer:
         response.content_type = 'application/xml'
         return response
 
-    def verify_wechat(request):
+    def verify_wechat(self, request):
         token = 'Orangestar'
 
         data = request.args

@@ -69,7 +69,7 @@ class WeChatApp:
         accessToken = self.access_token_manager.get_access_token()
 
         # 测试用的
-        filePath = "/root/Grammar-Correction-Bot/pub_wechat/assets/test_image.JPG"
+        filePath = "/root/Grammar-Correction-Bot/assets/test_image.JPG"
         mediaType = "image"
         media_id = self.media_manager.upload(accessToken, filePath, mediaType)
 
@@ -83,7 +83,7 @@ class WeChatApp:
         accessToken = self.access_token_manager.get_access_token()
 
         # 测试用的
-        filePath = "/root/Grammar-Correction-Bot/pub_wechat/assets/test_voice.mp3"
+        filePath = "/root/Grammar-Correction-Bot/assets/test_voice.mp3"
         mediaType = "voice"
         media_id = self.media_manager.upload(accessToken, filePath, mediaType)
 

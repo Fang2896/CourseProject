@@ -1,7 +1,7 @@
 import requests
 import json
 # from openai import OpenAI
-from dialogue_history import DialogueHistory
+from openai.dialogue_history import DialogueHistory
 
 
 class GPTClient:

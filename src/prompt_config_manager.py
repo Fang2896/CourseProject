@@ -1,6 +1,6 @@
 import json
 
-class JsonConfigManager:
+class PromptConfigManager:
     def __init__(self, filepath):
         self.config_data = self._load_config(filepath)
 
@@ -15,5 +15,3 @@ class JsonConfigManager:
             return "\n".join(value)
         return value
 
-config_manager = JsonConfigManager('config.json')
-print(config_manager.get('DEFAULT_SYSTEM_CONTENT'))

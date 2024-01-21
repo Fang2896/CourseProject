@@ -38,6 +38,7 @@ class GPTClient:
             'model': 'dall-e-3',
             'prompt': prompt,
             'n': 1,
+            'style' : 'natural',
             'size': '1024x1024'
         }
 
@@ -46,13 +47,13 @@ class GPTClient:
                 if response.status == 200:
                     data = await response.json()
                     image_url = data['data'][0]['url']
-                    return await self._download_image(image_url)
+                    return await self.download_image(image_url)
                 else:
                     print(f"Error from OpenAI: {response.status}")
                     return None
 
 
-    async def _download_image(self, url):
+    async def download_image(self, url):
         image_folder = 'images'
         if not os.path.exists(image_folder):
             os.makedirs(image_folder)
@@ -69,7 +70,3 @@ class GPTClient:
                 else:
                     print(f"Error downloading image: {response.status}")
                     return None
-
-
-    
-

@@ -2,6 +2,18 @@
   "DEFAULT_SYSTEM_CONTENT": [
     "You are a great English teacher who can talk to users."
   ],
+  "Free_SYSTEM_CONTENT": [
+    "You are my friend!"
+  ],
+  "Image_SYSTEM_CONTENT": [
+    "You are a teacher teaching student to describe an image."
+  ],
+  "Scene_SYSTEM_CONTENT": [
+    "You are an great actor."
+  ],
+  "CORRECT_SYSTEM_CONTENT": [
+    "You are a great English teacher who correcting students English mistakes."
+  ],
   "CORRECT_INSTRUCTION": [
     "Please check if there are any word usage errors,",
     "or spelling errors, or sentence grammar errors,",

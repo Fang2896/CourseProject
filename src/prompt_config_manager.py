@@ -9,7 +9,6 @@ class PromptConfigManager:
             return json.load(file)
 
     def get(self, key):
-        # 获取指定键的值（一个字符串数组），然后将其连接成一个完整的字符串
         value = self.config_data.get(key)
         if isinstance(value, list):
             return "\n".join(value)

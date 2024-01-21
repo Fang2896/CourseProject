@@ -14,16 +14,20 @@ class DialogueHistory:
     ]
     self.history_folder = "history"  # 文件夹名称
     self._create_history_folder()
-    self.filename = f"{datetime.now().strftime('%Y%m%d%H%M%S')}_dialogue_history.json"
-    self.init_json_file()
+    self.filename = os.path.join(self.history_folder, \
+                                 f"{datetime.now().strftime('%Y%m%d%H%M%S')}_dialogue_history.json")
+    self._init_json_file()
+
 
   def _create_history_folder(self):
     if not os.path.exists(self.history_folder):
       os.makedirs(self.history_folder)
 
-  def init_json_file(self):
+
+  def _init_json_file(self):
     with open(self.filename, 'w') as file:
         json.dump(self.history, file, indent=4)
+
 
   def add_message(self, role, content):
     allowed_roles = ["user", "system", "assistant"]
@@ -35,6 +39,7 @@ class DialogueHistory:
     with open(self.filename, 'a') as file:
         file.write(',\n' + json.dumps(new_message, indent=4))
 
+
   def get_latest_response(self):
     for message in reversed(self.history):
       if message["role"] == "assistant":
@@ -45,14 +50,16 @@ class DialogueHistory:
 
   def get_full_history(self):
     return self.history
-  
+ 
+
   def get_all_user_history(self):
     user_history = []
     for message in self.history:
         if message["role"] == "user":
             user_history.append(f"user: {message['content']}")
     return ', '.join(user_history)
-  
+
+
   def get_full_user_assistant_history(self):
     formatted_history = []
     for message in self.history:
@@ -61,10 +68,16 @@ class DialogueHistory:
             formatted_history.append(f"{role}: {message['content']}")
     return ', '.join(formatted_history)
 
-  def clear_history(self, system_content = ""):
-    if(system_content == ""):
-       system_content = self.json_config_manager.get("DEFAULT_SYSTEM_CONTENT")
 
+  def clear_history(self, system_content = ""):
+    if system_content == "":
+        system_content = self.json_config_manager.get("DEFAULT_SYSTEM_CONTENT")
     print("==== clean history ====")
-    self.history = [{"role":"system", "content":system_content}]
+
+    self.history = [{"role": "system", "content": system_content}]
+    self.filename = os.path.join(self.history_folder, \
+                                 f"{datetime.now().strftime('%Y%m%d%H%M%S')}_dialogue_history.json")
+    
+    with open(self.filename, 'w') as file:
+        json.dump(self.history, file, indent=4)
 

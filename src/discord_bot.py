@@ -258,7 +258,9 @@ class DiscordBot:
         new_system = self.prompt_config_manager.get("Scene" + "_SYSTEM_CONTENT") + generate_settings_content
         self.history.reset_system_prompt(new_system)
 
-
+    async def handle_begin_RolePlay_Mode(self, message):
+        pass
+    
     def format_full_conversation(self):
         full_history = self.history.get_full_history()
         return '\n'.join([f'{msg["role"].title()}: {msg["content"]}' for msg in full_history])

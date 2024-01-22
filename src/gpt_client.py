@@ -108,3 +108,5 @@ class GPTClient:
                 else:
                     print(f"Error from OpenAI: {response.status}")
                     return None
+
+

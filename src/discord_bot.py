@@ -118,11 +118,11 @@ class DiscordBot:
             if mode_name == "Image":
                 await self.handle_begin_Image_Mode(message)
                 
-            elif mode_name == "Scene":
-                self.handle_begin_Free_Mode(message)
-
             elif mode_name == "Free":
-                self.handle_begin_Scene_Mode(message)
+                await self.handle_begin_Free_Mode(message)
+
+            elif mode_name == "Scene":
+                await self.handle_begin_Scene_Mode(message)
 
         else:
             await message.channel.send(f"===== Invalid mode. Please choose from [{', '.join(allowed_modes)}]. =====")

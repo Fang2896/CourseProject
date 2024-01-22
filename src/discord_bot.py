@@ -149,11 +149,6 @@ class DiscordBot:
             
 
         elif self.mode == "Free":
-            """
-            TODO:
-            目前的功能就是单纯聊天，但是需要更好的prompt
-            """
-
             self.history.add_message("user", message.content)
             print("User Input: ", message.content)
             response = await self.gpt_client.submit_message(self.history.get_full_history())
@@ -162,14 +157,6 @@ class DiscordBot:
 
 
         elif self.mode == "Scene":
-            """
-            TODO:
-            首先要设定至少5个scene setting，然后随机选一个
-            然后展示给用户其设定，然后开始roleplay
-            roleplay后，针对场景来进行纠正反馈，不仅仅是对话
-            还有针对相应场景更好的应对方式，以及更好的表达方式等等
-            """
-
             self.history.add_message("user", message.content)
             print("User Input: ", message.content)
             response = await self.gpt_client.submit_message(self.history.get_full_history())
@@ -236,9 +223,24 @@ class DiscordBot:
         self.history.reset_system_prompt(new_system)
 
     async def handle_begin_Scene_Mode(self, message):
-        # TODO: 这里可以搜集用户的一些信息，然后给定场景
-        # 历史管理
-        new_system = self.prompt_config_manager.get("Scene" + "_SYSTEM_CONTENT")
+        generate_prompt = [
+            {
+                "role":"system",
+                "content":"You are a great script writer"
+            },
+            {
+                "role":"user",
+                "content":self.prompt_config_manager.get("Scene_SETTING_GENERATE_CONTENT")
+            }
+        ]
+        generate_settings = await self.gpt_client.submit_message(generate_prompt)
+        generate_settings_content = generate_settings["content"]
+
+        await self.send_split_messages(message.channel ,"========The following are the settings=======")
+        await self.send_split_messages(message.channel ,generate_settings_content)
+        await self.send_split_messages(message.channel ,"========Start RolePlay=======")
+
+        new_system = self.prompt_config_manager.get("Scene" + "_SYSTEM_CONTENT") + generate_settings_content
         self.history.reset_system_prompt(new_system)
 
 

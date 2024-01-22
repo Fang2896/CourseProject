@@ -1,5 +1,6 @@
 import json
 
+
 class PromptConfigManager:
     def __init__(self, filepath):
         self.config_data = self._load_config(filepath)

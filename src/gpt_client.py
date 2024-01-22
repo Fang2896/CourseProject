@@ -47,10 +47,14 @@ class GPTClient:
                 if response.status == 200:
                     data = await response.json()
                     image_url = data['data'][0]['url']
-                    return await self.download_image(image_url)
+                    image_path = await self.download_image(image_url)
+                    if image_path:
+                        return image_path, image_url
+                    else:
+                        return None, None
                 else:
                     print(f"Error from OpenAI: {response.status}")
-                    return None
+                    return None, None
 
 
     async def download_image(self, url):
@@ -69,4 +73,38 @@ class GPTClient:
                     return file_path
                 else:
                     print(f"Error downloading image: {response.status}")
+                    return None
+
+
+    async def see_image(self, url, prompt):
+        payload = {
+            "model": "gpt-4-vision-preview",
+            "messages": [
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": prompt
+                    },
+                    {
+                    "type": "image_url",
+                    "image_url": {
+                        "url": url
+                    }
+                    }
+                ]
+            }
+            ],
+            "max_tokens": 500
+        }
+
+        vision_api_url = "https://api.openai.com/v1/chat/completions"
+        async with aiohttp.ClientSession() as session:
+            async with session.post(vision_api_url, headers=self.headers, json=payload) as response:
+                if response.status == 200:
+                    data = await response.json()
+                    return data['choices'][0]['message']
+                else:
+                    print(f"Error from OpenAI: {response.status}")
                     return None

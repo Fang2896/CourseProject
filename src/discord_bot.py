@@ -87,7 +87,7 @@ class DiscordBot:
         
         response = await self.gpt_client.submit_message(correct_input)
         await self.send_split_messages(message.channel, response["content"])
-        self.history.clear_history()
+        self.history.clear_history(self.mode)
         await self.send_split_messages(message.channel, "===== Conversation has been reset =====")
 
 
@@ -103,20 +103,27 @@ class DiscordBot:
 
         mode_guidance = {
             # TODO: 这里可以设定各个模式下更详细的引导信息
-            "Free": "You're now in Free mode. You can chat freely.",
-            "Image": "You're now in Image mode. Send me a prompt, and I'll generate an image for you.",
-            "Scene": "You're now in Scene mode. I will give you a scene in daily life."
+            "Free": "You're now in Free mode.",
+            "Image": "You're now in Image mode.",
+            "Scene": "You're now in Scene mode."
         }
 
         if mode_name in allowed_modes:
             self.mode = mode_name
 
-            new_system = self.prompt_config_manager.get(mode_name + "_SYSTEM_CONTENT")
-            self.history.reset_system_prompt(new_system)
-
             await message.channel.send(f"===== Mode changed to: [{self.mode}] =====")
             if self.mode != "Begin":
                 await message.channel.send(mode_guidance[self.mode])
+
+            if mode_name == "Image":
+                await self.handle_begin_Image_Mode(message)
+                
+            elif mode_name == "Scene":
+                self.handle_begin_Free_Mode(message)
+
+            elif mode_name == "Free":
+                self.handle_begin_Scene_Mode(message)
+
         else:
             await message.channel.send(f"===== Invalid mode. Please choose from [{', '.join(allowed_modes)}]. =====")
 
@@ -134,21 +141,12 @@ class DiscordBot:
     # 主要逻辑就在这里实现
     async def handle_user_input(self, message):
         if self.mode == "Image":
-            """
-            TODO:
-            目前的功能只有让用户输入prompt，然后生成对应的image
-            后面要改成：
-            1. 首先一切换到这个模式的时候，就随机生成一张图片
-            2. 然后让用户tell a story
-            3. 然后GPT渐渐的引导用户--
-            4. 最后用户满意的时候可以调用#correct来获得相应的反馈
-            """
-
-            image_path = await self.gpt_client.get_image(message.content)
-            print("Image Path: ", image_path)
-            if image_path:
-                await self.send_image(message.channel, image_path)
-
+            self.history.add_message("user", message.content)
+            print("User Input: ", message.content)
+            response = await self.gpt_client.submit_message(self.history.get_full_history())
+            self.history.add_message("assistant", response["content"])
+            await self.send_split_messages(message.channel, response["content"])
+            
 
         elif self.mode == "Free":
             """
@@ -201,6 +199,47 @@ class DiscordBot:
 
         file = discord.File(image_path)
         await channel.send(file=file)
+
+
+    """
+    Begining Handles:
+    处理3个模式，刚开始切换后要执行的操作
+    """
+
+    async def handle_begin_Image_Mode(self, message):
+        # 首先获取图片发送给用户
+        generation_prompt = self.prompt_config_manager.get("Image_GENERATE_CONTENT")
+        image_path, image_url = await self.gpt_client.get_image(generation_prompt)
+        print("Image generation prompt:", generation_prompt, "\n")
+        print("Image Path: ", image_path)
+        print("Image Path: ", image_url)
+        if image_path:
+            await self.send_image(message.channel, image_path)
+        await self.send_split_messages(message.channel, self.prompt_config_manager.get("Image_Describe_GUIDE_CONTENT"))
+
+        # 然后需要让gpt-vision理解, 传入url就行
+        image_description = await self.gpt_client.see_image(image_url, self.prompt_config_manager.get("Image_VIEW_CONTENT"))
+        image_description_content = image_description["content"]
+        print("GPT see this image: \n", image_description_content)
+        
+        # 更新历史管理
+        new_system = self.prompt_config_manager.get("Image" + "_SYSTEM_CONTENT")
+        new_system += image_description_content
+        self.history.reset_system_prompt(new_system)
+        self.history.add_message("assistant", self.prompt_config_manager.get("Image_Describe_GUIDE_CONTENT"))
+        return image_description_content
+
+    async def handle_begin_Free_Mode(self, message):
+        # TODO: 这里可以切换到Free mode后，提供用户一些topics.....
+        # 历史管理
+        new_system = self.prompt_config_manager.get("Free" + "_SYSTEM_CONTENT")
+        self.history.reset_system_prompt(new_system)
+
+    async def handle_begin_Scene_Mode(self, message):
+        # TODO: 这里可以搜集用户的一些信息，然后给定场景
+        # 历史管理
+        new_system = self.prompt_config_manager.get("Scene" + "_SYSTEM_CONTENT")
+        self.history.reset_system_prompt(new_system)
 
 
     def format_full_conversation(self):

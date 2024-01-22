@@ -105,7 +105,8 @@ class DiscordBot:
             # TODO: 这里可以设定各个模式下更详细的引导信息
             "Free": "You're now in Free mode.",
             "Image": "You're now in Image mode.",
-            "Scene": "You're now in Scene mode."
+            "Scene": "You're now in Scene mode.",
+            "RolePlay": "You're now in RolePlay mode."
         }
 
         if mode_name in allowed_modes:
@@ -123,7 +124,9 @@ class DiscordBot:
 
             elif mode_name == "Scene":
                 await self.handle_begin_Scene_Mode(message)
-
+                
+            elif mode_name == "RolePlay":
+                await self.handle_begin_RolePlay_Mode(message)
         else:
             await message.channel.send(f"===== Invalid mode. Please choose from [{', '.join(allowed_modes)}]. =====")
 
@@ -162,7 +165,13 @@ class DiscordBot:
             response = await self.gpt_client.submit_message(self.history.get_full_history())
             self.history.add_message("assistant", response["content"])
             await self.send_split_messages(message.channel, response["content"])
-
+            
+        elif self.mode == "RolePlay":
+            self.history.add_message("user", message.content)
+            print("User Input: ", message.content)
+            response = await self.gpt_client.submit_message(self.history.get_full_history())
+            self.history.add_message("assistant", response["content"])
+            await self.send_split_messages(message.channel, response["content"])
 
     '''
     Send Functions:
@@ -170,6 +179,8 @@ class DiscordBot:
         Send image
         Send voice files
     '''
+
+    
     async def send_split_messages(self, channel, message):
         if len(message) <= 2000:
             await channel.send(message)
@@ -218,6 +229,10 @@ class DiscordBot:
 
     async def handle_begin_Free_Mode(self, message):
         # TODO: 这里可以切换到Free mode后，提供用户一些topics.....
+        generate_prompt = self.prompt_config_manager.get("Free_GENERATE_CONTENT")
+        generate_settings = await self.gpt_client.submit_message(generate_prompt)
+        generate_settings_content = generate_settings["content"]
+        
         # 历史管理
         new_system = self.prompt_config_manager.get("Free" + "_SYSTEM_CONTENT")
         self.history.reset_system_prompt(new_system)

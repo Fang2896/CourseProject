@@ -1,52 +1,83 @@
-
-# Discord Grammar Correction Bot
+# Grammar Correct Bot for Discord
 
 ## Overview
 
-This project is a Discord bot that enables users to join a Discord group and interact with a bot powered by GPT (Generative Pretrained Transformer). Users can chat freely with the bot, and after the conversation, they can use specific commands to check for grammatical and spelling errors in their messages. This bot is a tool for users looking to improve their language skills or just have fun chatting with an AI.
+Grammar Correct Bot is an Discord bot designed to assist in English learning. It's built on GPT and offers interactive, engaging ways to improve language skills.
 
 ## Features
 
-- **Join the Discord Group**: Users can join the Discord group through the link: [Join Discord](https://discord.gg/JJ8Yysgg).
-- **Chat with the Bot**: Once in the group, users can freely chat with the bot.
-- **Grammar and Spelling Check**: By typing `#correct`, the bot will check for grammatical and spelling errors in the user's messages.
-- **Reset Chat History**: Users can clear all chat history by typing `#reset`.
+### Modes
 
-## Installation and Usage
+* **Free Mode**: Engage in casual conversations. The bot acts as a friend, initiating various topics for a natural chat experience.
+* **Image Mode**: Describe an image. The bot provides a random image and guides the user through the process of describing it in detail.
+* **Scene Mode**: Role-play with preset scenarios. The bot generates character and scene settings, allowing for immersive role-playing sessions.
 
-### Prerequisites
+### Special Commands
 
-- Python 3.8
-- Libraries: `openai`, `discord`, `json`, `dotenv`, `aiohttp`
+* **`#mode [Free/Image/Scene]`**: Switch between the three modes.
+* **`#correct`**: Summarizes the user's conversation and provides grammar and vocabulary corrections.
+* **`#reset`**: Clears the current conversation history.
+* **`#setRole`**: In Free or Scene modes, allows users to set the bot's role.
 
-### Setup
+## Installation and Setup
 
-1. Clone the repository to your local machine.
-2. Install the required libraries:
-   ```bash
-   pip install openai discord json dotenv aiohttp
-   ```
-3. Create a `.env` file in the main directory and fill in the following keys:
-   - `OPENAI_API_KEY`: Your OpenAI API key.
-   - `DISCORD_BOT_TOKEN`: Your Discord bot token.
-4. Run the bot:
-   ```bash
-   python main.py
-   ```
+1. **Prerequisites**:
 
-## Development TODOs
+   * A Discord bot in your server.
+   * An OpenAI key.
+   * Your Discord channel ID.
+   * The bot's token.
 
-1. [ ] Experiment with improved prompts for better interaction.
+2. **Environment Setup**:
 
-* [ ] Develop a more advanced interaction/correction system.
-* [ ] Implement voice interaction capabilities.
+   * Create a `.env` file in the project directory.
 
-* [ ] Explore the use of GPT in JSON mode.
+   * Add the following content:
 
-## Contribution
+     ```
+     makefileCopy codeOPENAI_KEY = "sk-xxxxxxxxxxxxxxxxxxxxxxxxxx"
+     DISCORD_TOKEN = "MTxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+     GROUP_ID = "11xxxxxxxxxxxxxxxxxxx"
+     ```
 
-Contributions to the project are welcome. Please feel free to fork the repository, make changes, and submit a pull request.
+3. **Required Libraries**:
 
-## License
+   * Install the necessary libraries in a virtual environment using 
 
-[MIT License](LICENSE)
+     ```
+     conda
+     ```
+
+      or 
+
+     ```
+     pip
+     ```
+
+     :
+
+     * `discord`
+     * `openai`
+     * `aiofiles`
+     * `aiohttp`
+     * `python-dotenv`
+
+4. **Running the Bot**:
+
+   * Execute the bot using the command:
+
+     ```
+     python src/main.py
+     ```
+
+   * The bot will go online in the specified Discord channel and is ready for interaction.
+
+## Project Structure
+
+* **`gpt_client.py`**: Manages interactions with the OpenAI API.
+* **`dialogue_history.py`**: Manages conversation history and bot prompt settings during mode switches.
+* `discord_bot.py`: The main functional file, defining all bot `functionalities`.
+* **`prompt_config_manager.py`**: Manages the `prompt_config.json` file for easy prompt management.
+* **`token_config_manager.py`**: Manages the `.env` file containing keys, tokens, and IDs.
+* **`history` folder**: Stores conversation history files.
+* **`image` folder**: Stores images sent by the bot.

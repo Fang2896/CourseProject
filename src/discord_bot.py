@@ -228,7 +228,7 @@ class DiscordBot:
         ]
         generated_topics = await self.gpt_client.submit_message(generate_prompt_free)
         print("Free Mode: Generate Topics: \n" ,generated_topics)
-        generate_topics_content = generate_topics["content"]
+        generated_topics_content = generated_topics["content"]
 
         await self.send_split_messages(message.channel ,"========Here is today's topic, Let's talk!=======")
         await self.send_split_messages(message.channel ,generate_topics_content)
@@ -236,7 +236,6 @@ class DiscordBot:
         new_system_free = self.prompt_config_manager.get("Free" + "_SYSTEM_CONTENT")
         new_system_free += generate_topics_content
         self.history.reset_system_prompt(new_system_free)
-        self.history.reset_system_prompt(new_system)
 
     async def handle_begin_Scene_Mode(self, message):
         generate_prompt = [

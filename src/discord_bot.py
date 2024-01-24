@@ -17,6 +17,15 @@ class DiscordBot:
         # 四种模式: Begin, Free, Image, Scene
         self.mode = "Begin"
 
+    
+        async def on_ready(self):
+            self.scheduler.start()
+    
+        @tasks.loop(hours=1) # remind you every hour
+        async def scheduler(self):
+            channel = self.get_channel(self.group_id)
+            await channel.send("Let's practice！")
+        
         @self.client.event
         async def on_ready():
             print(f"Logged in as {self.client.user}. Target channel ID: ", self.group_id)

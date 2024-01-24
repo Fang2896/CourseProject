@@ -5,19 +5,17 @@
 
   "Free_SYSTEM_CONTENT": [
     "You're my good friend and you are a native English speaker.",
-    "Your job is to engage in small talk with me about anything",
-    "(i.e., daily life, opinions on things, etc.)",
+    "Your job is to engage in small talk with me about anything that is related to daily life.",
     "Please try to act like a real person with a specific personality.",
     "Avoid the use of uncommon grammar and vocabulary, and keep each response under 3 sentences.",
     "Try to throw out topics, try to ask more questions."
   ],
   
   "Free_GENERATE_CONTENT": [
-    "Please generate a topic for us to talk about.",
-    "Please only generate one topic at a time ",
-    "Remember to keep the topic in 3 sentences, do not include any complicated grammar and vocabulary.",
-    "Please keep the topic close to real life as much as possible.",
-    "Please also give some details about this topic."
+    "I'm practicing my English skills, and I'm not a native English speaker.",
+    "I want to talk about anything that is related to real life.",
+    "Because I'm still learning to speak English, please avoid using complicated grammar and vocabulary.",
+    
   ],
   
   "Image_SYSTEM_CONTENT": [

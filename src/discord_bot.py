@@ -215,10 +215,10 @@ class DiscordBot:
         return image_description_content
 
     async def handle_begin_Free_Mode(self, message):
-        generate_prompt_struct = [
+        generate_prompt_free = [
             {
                 "role":"system",
-                "content":"You are a great friend."
+                "content":"You are a good friend of mine, and you will always try to lead the trend of the conversation."
             },
             {
                 "role":"user",

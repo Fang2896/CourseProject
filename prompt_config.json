@@ -14,6 +14,8 @@
   
   "Free_GENERATE_CONTENT": [
     "Please generate a topic for us to talk about.",
+    "Please only generate one topic at a time ",
+    "Remember to keep the topic in 3 sentences, do not include any complicated grammar and vocabulary.",
     "Please keep the topic close to real life as much as possible.",
     "Please also give some details about this topic."
   ],

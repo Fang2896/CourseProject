@@ -226,8 +226,8 @@ class DiscordBot:
                 "content":self.prompt_config_manager.get("Free_GENERATE_CONTENT")
             }
         ]
-        generate_topics = await self.gpt_client.submit_message(generate_prompt_struct)
-        print("Free Mode: Generate Topics: \n" ,generate_topics)
+        generated_topics = await self.gpt_client.submit_message(generate_prompt_free)
+        print("Free Mode: Generate Topics: \n" ,generated_topics)
         generate_topics_content = generate_topics["content"]
 
         await self.send_split_messages(message.channel ,"========Here is today's topic, Let's talk!=======")

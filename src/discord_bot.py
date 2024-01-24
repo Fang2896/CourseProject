@@ -233,7 +233,9 @@ class DiscordBot:
         await self.send_split_messages(message.channel ,"========Here is today's topic, Let's talk!=======")
         await self.send_split_messages(message.channel ,generate_topics_content)
 
-        new_system = self.prompt_config_manager.get("Free" + "_SYSTEM_CONTENT")
+        new_system_free = self.prompt_config_manager.get("Free" + "_SYSTEM_CONTENT")
+        new_system_free += generate_topics_content
+        self.history.reset_system_prompt(new_system_free)
         self.history.reset_system_prompt(new_system)
 
     async def handle_begin_Scene_Mode(self, message):

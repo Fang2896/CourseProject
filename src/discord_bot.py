@@ -215,6 +215,7 @@ class DiscordBot:
         return image_description_content
 
     async def handle_begin_Free_Mode(self, message):
+        # 
         generate_prompt_free = [
             {
                 "role":"system",
@@ -227,17 +228,11 @@ class DiscordBot:
         ]
         generate_topics = await self.gpt_client.submit_message(generate_prompt_struct)
         print("Free Mode: Generate Topics: \n" ,generate_topics)
-        # generate_topics_content = generate_topics["content"]
+        generate_topics_content = generate_topics["content"]
 
-        # await self.send_split_messages(message.channel ,"========Here is today's topic, Let's talk!=======")
-        # await self.send_split_messages(message.channel ,generate_topics_content)
+        await self.send_split_messages(message.channel ,"========Here is today's topic, Let's talk!=======")
+        await self.send_split_messages(message.channel ,generate_topics_content)
 
-        # # 历史管理
-        # new_system = self.prompt_config_manager.get("Free" + "_SYSTEM_CONTENT")
-        # self.history.reset_system_prompt(new_system)
-        # TODO: 上面的代码还需要多考虑一下prompt设计，历史管理。。。。
-        # TODO: 这里可以切换到Free mode后，提供用户一些topics.....
-        # 历史管理
         new_system = self.prompt_config_manager.get("Free" + "_SYSTEM_CONTENT")
         self.history.reset_system_prompt(new_system)
 
